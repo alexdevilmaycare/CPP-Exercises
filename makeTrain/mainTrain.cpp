@@ -10,13 +10,11 @@ void PrintTrain (const std::deque<int> & train) {
         std::cout << "\n"; 
         return; 
     }
-    auto iter = train.begin();
-    for (size_t i = 0; i != train.size(); ++ i) {
-        auto next = std::next(iter); 
-        std::string delim = next == train.end()? "\n":" ";
-        iter = std::next(iter);
-        std::cout << train[i] << delim; 
+    for (const auto & wagon: train) {
+        std::cout << wagon << " ";
     }
+    std::cout << "\n"; 
+
 }
 
 std::pair<std::string, int> parseString (const std::string & str) {
