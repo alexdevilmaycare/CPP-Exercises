@@ -1,78 +1,36 @@
-#include<iostream>
-#include<deque>
-#include<string>
-#include<sstream>
-#include<utility>
-#include<iterator>
-
-void PrintTrain (const std::deque<int> & train) {
-    if (train.size() == 0) {
-        std::cout << "\n"; 
-        return; 
+#include <deque>
+#include <iostream>
+#include <string>
+ 
+void MakeTrain() {
+    using Wagon = int;
+    std::deque<Wagon> train;
+ 
+    std::string command;
+    Wagon wagon;
+    size_t k;
+    while (std::cin >> command) {
+        if (command == "+left") {
+            std::cin >> wagon;
+            train.push_front(wagon);
+        } else if (command == "+right") {
+            std::cin >> wagon;
+            train.push_back(wagon);
+        } else if (command == "-left") {
+            std::cin >> k;
+            k = std::min(k, train.size());
+            train.erase(train.begin(), train.begin() + k);
+        } else if (command == "-right") {
+            std::cin >> k;
+            k = std::min(k, train.size());
+            train.erase(train.end() - k, train.end());
+        }
     }
-    for (const auto & wagon: train) {
+ 
+    for (const auto& wagon : train) {
         std::cout << wagon << " ";
     }
-    std::cout << "\n"; 
-
-}
-
-std::pair<std::string, int> parseString (const std::string & str) {
-    std::string command; 
-    int numberofWagons; 
-    std:: stringstream sstrm (str);
-    sstrm >> command; 
-    sstrm.ignore(1); 
-    sstrm >> numberofWagons; 
-    std::pair<std::string, int> commandPair (command, numberofWagons);
-    return commandPair; 
-}
-
-
-void ModifyTrain (std::deque<int> & train, const std::string & userCommand, int & wagNumb) {
-    
-    if (userCommand == "+left") {
-        train.push_front(wagNumb);
-        return; 
-    }
-    if (userCommand == "+right") {
-        train.push_back(wagNumb);
-        return; 
-    }
-    size_t containerSize = train.size(); 
-    size_t numberofItmestoBeRemoved = static_cast<size_t> (wagNumb); 
-    if (userCommand == "-right") {
-        
-         if (containerSize <= numberofItmestoBeRemoved) {
-            train.clear(); 
-            return; 
-         }
-        train.erase( train.end() - numberofItmestoBeRemoved, train.end());
-    }
-    if (userCommand == "-left") {
-        if (containerSize <= numberofItmestoBeRemoved) {
-            train.clear();
-            return; 
-        }
-        train.erase( train.begin(), train.begin() + numberofItmestoBeRemoved );       
-    }
-}
-
-
-
-void MakeTrain() {
-    std::deque<int> train;
-    std::string userCommand; 
-    while (std::getline(std::cin, userCommand)) {
-        if (userCommand.empty()) {
-            break;
-        }
-        std::pair<std::string, int> parsedInput = parseString(userCommand);
-        std::string command = parsedInput.first; 
-        int wagons = parsedInput.second; 
-        ModifyTrain(train, command, wagons);
-    }
-    PrintTrain(train); 
+    std::cout << "\n";
 }
 
 int main () {
