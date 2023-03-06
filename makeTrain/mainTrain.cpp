@@ -47,8 +47,7 @@ void ModifyTrain (std::deque<int> & train, const std::string & userCommand, int 
             train.clear(); 
             return; 
          }
-        size_t newSize = containerSize - numberofItmestoBeRemoved; 
-        train.resize(newSize); 
+        train.erase( train.end() - numberofItmestoBeRemoved, train.end());
     }
     if (userCommand == "-left") {
         if (containerSize <= numberofItmestoBeRemoved) {
